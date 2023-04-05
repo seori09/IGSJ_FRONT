@@ -7,7 +7,7 @@
         <li :key=i v-for="(prd, i) in searchedProducts">
           <div class="select-product">
             <router-link :to="{name: 'product', params: {pno: prd.pno}}">
-              <img class="thumb-img" :src="prd.thumb">
+              <img class="thumb-img" :src="prd.image">
               <div class="thumb-desc">
                 <span><b>{{prd.product_name}}</b></span><br>
                 <span>{{Number(prd.product_price).toLocaleString()}}원</span>
@@ -38,6 +38,7 @@ export default {
     }
   },
   created(){
+    this.$store.commit('setUrl', window.location.href)
     this.typedParam = this.$route.params.typed
     this.fn_searchedProducts(this.typedParam)
   },

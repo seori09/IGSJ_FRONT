@@ -7,8 +7,10 @@
         <button :class="{'focused':guestActivate}" @click="forGuest">비회원 주문 조회</button>
       </div>
       <div class="member-login" v-if="this.memberActivate">
-        <input id="id" type="text" v-model="id" maxlength="20" placeholder="아이디" v-focus>
-        <input id="pwd" type="password" v-model="pwd" maxlength="30" autocomplete="on" placeholder="비밀번호">
+        <form>
+          <input id="id" type="text" v-model="id" maxlength="20" placeholder="아이디" v-focus>
+          <input id="pwd" type="password" v-model="pwd" maxlength="30" autocomplete="on" placeholder="비밀번호">
+        </form>
         <button class="login-btn" @click="memberLogin">로그인</button>
         <div class="search-info">
           <a href="#">아이디 찾기</a>

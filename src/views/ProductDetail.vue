@@ -1,99 +1,211 @@
-<!-- 카테고리 대분류, 중분류 내용 필요 -->
 <template>
-  <div class="aboutProduct">
-    <div class="inner-product">
-      <div class="img-box">
-        <img id="productImage" :src="this.productInfo.image" :alt="this.productInfo.pno">
-      </div>
-      <div class="product-info">
-        <div class="product-title">{{this.productInfo.product_name}}</div>
-        <div class="explan_product product_info_section">
-          <h4 class="title-box font-mss">
-            Product Info
-            <span class="korSub">&nbsp;<font size="2">제품정보</font></span>
-          </h4>
-          <ul class="product_article">
-            <li>
-              <p class="product_article_tit">품번</p>
-              <p class="product_article_contents">
-                <strong>{{this.productInfo.pno}}</strong>
-              </p>
-            </li>
-          </ul>
-            </div>
-            <div class="explan_product price_info_section">
-               <h4 class="title-box font-mss">
-                  Price Info
-                  <span class="korSub">&nbsp;<font size="2">가격정보</font></span>
-               </h4>
-               <ul class="product_article">
-                  <li class="box_info_products">
-                     <p class="product_article_tit">IGSJ 판매가</p>
-                     <p class="product_article_contents">
-                        <span class="product_article_price" id="goods_price">
-                           <span class="prouct-price">{{Number(this.productInfo.product_price).toLocaleString()}}원</span>
-                        </span>
-                     </p>
-                  </li>
-               </ul>
-            </div>
+  <div>
+    <p class="show_categories">
+      <span>
+        <router-link to="/">IGSJ 스토어</router-link>
+      </span>
+      <span>
+        <router-link :to="{name: 'item', params: {cno: this.midLvCatArr[0].category_level}}">
+          {{this.midLvCatArr[0].big_ctg}}
+        </router-link>
+      </span>
+      <span>
+        <router-link :to="{name: 'item', params: {cno: this.midLvCatArr[0].cno}}">
+          {{this.midLvCatArr[0].category_name}}
+        </router-link>
+      </span>
+    </p>
+    <div class="aboutProduct">
+      <div class="inner-product">
+        <div class="img-box">
+          <img id="productImage" :src="this.productInfo.image" :alt="this.productInfo.pno">
+        </div>
+        <div class="product-info">
+          <div class="product-title">{{this.productInfo.product_name}}</div>
+          <div class="explan_product product_info_section">
+            <h4 class="title-box font-mss">
+              Product Info
+              <span class="korSub">&nbsp;<font size="2">제품정보</font></span>
+            </h4>
+            <ul class="product_article" style="border-bottom:1px solid lightgrey;">
+              <li>
+                <p class="product_article_tit">품번</p>
+                <p class="product_article_contents">
+                  <strong>{{this.productInfo.pno}}</strong>
+                </p>
+              </li>
+            </ul>
+          </div>
+          <div class="explan_product price_info_section">
+            <h4 class="title-box font-mss">
+              Price Info
+              <span class="korSub">&nbsp;<font size="2">가격정보</font></span>
+            </h4>
+            <ul class="product_article" style="border-bottom:1px solid lightgrey;">
+              <li class="box_info_products">
+                <p class="product_article_tit">IGSJ 판매가</p>
+                <p class="product_article_contents">
+                  <span class="product_article_price" id="goods_price">
+                    <span class="product-price">{{Number(this.productInfo.product_price).toLocaleString()}}원</span>
+                  </span>
+                </p>
+              </li>
+            </ul>
+          </div>
+          <div class="explan_product product_info_section">
+            <h4 class="title-box font-mss">
+              Delivery Info
+              <span class="korSub">&nbsp;<font size="2">배송정보</font></span>
+            </h4>
+            <ul class="product_article" style="border-bottom:1px solid lightgrey;">
+              <li>
+                <p class="product_article_tit">
+                  출고 정보
+                  <span style="border: none; padding: 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                   title="판매자가 설정한 정보로, 업체 및 상품상황에 따라 변경될 수 있습니다. 주말, 공휴일 및 업체 휴무일 제외한 평일(영업일) 기준 일자 입니다.">  
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                    </svg>
+                  </span>
+                </p>
+                <p class="product_article_contents">
+                  <strong>결제 3일 이내 출고</strong>
+                </p>
+              </li>
+              <li>
+                <p class="product_article_tit">배송 정보</p>
+                <p class="product_article_contents">
+                  <strong>국내 배송 / 입점사 배송 / CJ대한통운</strong>
+                </p>
+              </li>
+            </ul>
+          </div>
+          <div class="order-area" style="display:block; height:100%;">
             <div class="option-box">
               <select v-model="size">
                 <option value="">옵션 선택</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                <option value="2XL">2XL</option> 
+                <option :value="sz" :key='i' v-for="(sz, i) in sizeArr">{{sz}}</option>
               </select>
             </div>
-            <div class="count-check" v-if="this.size!==''">
-              <span>{{this.size}}</span>
-              <input type="number" min="1" :max="this.productInfo.product_stock" v-model.number="count"/>
+            <div :key='i' v-for="(sz, i) in sizeArr" :id="sz" class="count-check" style="display:none;">
+              <span class="count-check-size">{{sz}}</span>
+              <span class="count-check-count">
+                <input type="number" min="1" :max="this.productInfo.product_stock" v-model.number="count"/>
+              </span>
+              <span class="count-check-sum">{{pricePerOption}}</span>
+              <span class="count-check-delete">
+                <svg :name="sz" @click="removeCount" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey"  viewBox="0 0 16 16">
+                  <path :name="sz" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+              </span>
             </div>
             <div class="sum-total-price">
               <span>총 상품 금액</span>
-              <span>{{totalPrice}}원</span>
+              <span>{{totalSum}}원</span>
             </div>
             <div class="btn-box">
-               <button class="purchase"><b>바로구매</b></button>
-               <button class="cart"><b>장바구니</b></button>
+              <button class="purchase"><b>바로구매</b></button>
+              <router-link :to="{name: 'cart', params: {pno : this.$route.params.pno}}">
+              <button @click="goCart()">장바구니</button>
+                </router-link>
             </div>
-         </div>
+          </div>  
+        </div>
       </div>
+    </div>
+    <hr>
+    <div class="info_detail">
+      <h4 class="title-box font-mss">
+        Info
+        <span class="korSub">&nbsp;<font size="2">정보</font></span>
+      </h4>
+      <img :src="this.productInfo.image" :alt="this.productInfo.pno" style="width: 100%;">
+      <!-- 상품 정보 이미지는 추후에 작업 예정 -->
+    </div>
   </div>
 </template>
 
 <script>
+import {Tooltip} from 'bootstrap'
+
 export default {
   data() {
     return {
       pno:'',
+      userId: '',
+      midLvCatArr: {},
       productInfo: {},
       size: '',
-      count: 1
+      sizeArr: ['S', 'M', 'L', 'XL', '2XL'],
+      count: 1,
+      totalSum: ''
     }
   },
   created(){
+    this.$store.commit('setUrl', window.location.href)
     this.pno = this.$route.params.pno
     this.fn_productInfo(this.pno)
   },
+  mounted(){
+    new Tooltip(document.body, {selector: "[data-bs-toggle='tooltip']"})
+  },
+  watch: {
+    size: function(val){
+      document.getElementById(val).style.display="flex"
+    }
+  },
   computed: {
-    totalPrice() {
+    pricePerOption() {
       return (this.productInfo.product_price * this.count).toLocaleString()
+    },
+    totalSum() {
+      let sum = this.productInfo.product_price
+      return sum.toLocaleString()
     }
   },
   methods: {
+    fn_CategoryDetails(cno) {
+      this.$axios.get(this.$serverUrl + '/category/items/' + cno)
+      .then((res) => {this.midLvCatArr = res.data})
+      .catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('Category Error')
+        }
+      })
+    },
     fn_productInfo(pno){
       this.$axios.get(this.$serverUrl + '/product/detail?pno=' + pno)
       .then((res) => {
         this.productInfo = res.data
-        console.log(this.productInfo)
-      }).catch((err) => {
+        this.fn_CategoryDetails(this.productInfo.cno)
+      })
+      .catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('Error')
         }
       })
+    },
+    goCart() {
+      this.$axios.post(this.$serverUrl + "/cart/cartWrite", {
+          cartNum : this.cartNum,
+          userId : this.$store.state.userInfo.userId,
+          pno : this.pno,
+          productCnt : this.count,
+      }).then((res) => {
+        console.log(res.data)
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('장바구니 이동 오류')
+        }
+      })
+    },
+    removeCount(evt){
+      if(evt.target.getAttribute("name")===null) return false
+      else {
+        document.getElementById(evt.target.getAttribute("name")).style.display="none"
+        this.count=1
+      }
     }
   }
 }
@@ -106,34 +218,57 @@ export default {
     font-family: 'Noto Sans', sans-serif;
     font-family: 'Noto Sans KR', sans-serif;
   }
-  .aboutProduct {
-    display: flex;
-    justify-content: left;
-    padding-left: 30px;
+  .show_categories {
+    border-bottom: 1px solid darkgrey;
+    padding: 6px 0;
+    margin: 0;
+  }
+  .show_categories span {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .show_categories span::after {
+    content: ' > ';
+    font-weight: 100;
+  }
+  .show_categories span:first-child {
+    margin-left: 10px;
+  }
+  .show_categories span:last-child::after {
+    content: '';
+  }
+  .show_categories a {
+    text-decoration: none;
+    color: black;
+  }
+  .show_categories a:hover {
+    text-decoration: underline;
   }
   .inner-product {
     display: flex;
     padding: 20px;
-    align-items: center;
+    align-items: flex-start;
+    height: 100%;
   }
   .img-box {
     display : flex;
     align-items : center;
     justify-content : center;
-    width: 350px;
-    min-width: 350px;
-    height: 450px;
+    width: 490px;
+    min-width: 490px;
+    height: 630px;
     border: 1px solid #bebebe;
+    margin-top: 10px;
   }
   #productImage {
     border: 1px solid #e9e9e9;
-    width: 325px;
-    height: 425px;
+    width: 455px;
+    height: 595px;
   }
   .product-info {
-    width: 350px;
-    min-width: 350px;
-    height: 450px;
+    width: 380px;
+    min-width: 380px;
+    height: 100%;
     margin: 0px;
     margin-left: 36px;
   }
@@ -164,6 +299,7 @@ export default {
     height: 50px;
     display: flex;
     justify-content: space-between;
+    margin-top: 16px;
   }
   .purchase {
     width: 70%;
@@ -194,7 +330,7 @@ export default {
     align-items: center;
   }
   .option-box select{
-    width:310px;
+    width:90%;
     text-align:left;
   }
   .count-check {
@@ -207,10 +343,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  .count-check span {
-    width:70px;
-    text-align:center;
   }
   .count-check input {
     width:60px;
@@ -225,6 +357,35 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-weight: bold;
   }
-              
+  hr {
+    margin: 20px 0;
+    color:grey;
+  }
+  .count-check-size {
+    width: 45%;
+  }
+  .count-check-count {
+    width: 20%;
+  }
+  .count-check-sum {
+    font-size: 14px;
+    width: 30%;
+    text-align:right;
+    color: darkgrey;
+    font-weight: bold;
+  }
+  .count-check-delete {
+    width: 5%;
+    height:100%;
+  }
+  .count-check-delete svg{
+    cursor: pointer;
+  }
+  .info_detail {
+    width: 906px;
+    margin-left: 20px;
+    margin-bottom: 50px;
+  }           
 </style>

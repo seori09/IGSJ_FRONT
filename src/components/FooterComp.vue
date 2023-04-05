@@ -11,6 +11,7 @@
           <li><router-link to="#">영상정보처리기기 운영·관리방침</router-link></li>
           <li><router-link to="#">이용약관</router-link></li>
           <li><router-link to="#">로고 다운로드</router-link></li>
+          <li><a href="http://localhost:8086">관리자</a></li>
         </ul>
       </p>
     </div>
