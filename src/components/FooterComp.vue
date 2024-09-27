@@ -3,14 +3,14 @@
     <div>
       <p style="width:100%; display:block;">
         <ul style="float:left;">
-          <li><router-link to="#">회사소개</router-link></li>
-          <li><router-link to="#">공지사항</router-link></li>
-          <li><router-link to="#">이벤트 공지</router-link></li>
-          <li><router-link to="#">입점/제휴/대량구매</router-link></li>
-          <li><router-link to="#"><b>개인정보처리방침</b></router-link></li>
-          <li><router-link to="#">영상정보처리기기 운영·관리방침</router-link></li>
-          <li><router-link to="#">이용약관</router-link></li>
-          <li><router-link to="#">로고 다운로드</router-link></li>
+          <li><router-link to="/login/not-yet">회사소개</router-link></li>
+          <li><router-link to="/login/not-yet">공지사항</router-link></li>
+          <li><router-link to="/login/not-yet">이벤트 공지</router-link></li>
+          <li><router-link to="/login/not-yet">입점/제휴/대량구매</router-link></li>
+          <li><router-link to="/login/not-yet"><b>개인정보처리방침</b></router-link></li>
+          <li><router-link to="/login/not-yet">영상정보처리기기 운영·관리방침</router-link></li>
+          <li><router-link to="/login/not-yet">이용약관</router-link></li>
+          <li><router-link to="/login/not-yet">로고 다운로드</router-link></li>
           <li><a href="http://localhost:8086">관리자</a></li>
         </ul>
       </p>

@@ -15,9 +15,18 @@
           </router-link>
         </li>
         <li class="cs-tap">
-          <router-link to="/inquire/InquireList" class="button">
+          <router-link to="/inquire/InquireList" class="button" v-if="this.$store.state.userInfo.userVerify == 128">
+            <span class="tap-title">User Question</span>
+            <span class="tap-t">회원 문의내역</span>
+          </router-link>
+          <router-link to="/inquire/InquireList" class="button" v-else-if="this.$store.state.userInfo.userId != null">
             <span class="tap-title">My Question</span>
             <span class="tap-t">내 문의내역</span>
+          </router-link>
+          <router-link to="/login" class="button" v-else>
+            <span class="tap-title">My Question</span>
+            <span class="tap-t">내 문의내역</span>
+            <span class="login-noitce">로그인 후 이용가능</span>
           </router-link>
         </li>
       </ul>
@@ -42,7 +51,6 @@
         </thead>
         <tbody>
           <tr :key="i" v-for="(board, i) in noticeList">
-
             <router-link :to="{ name: 'NoticeView', params: { bno: board.bno } }">
               <!-- name은 index.js에 지정된 경로 이름을 나타냄, params는 지정된 경로에 보내줄 값을 나타냄 -->
 
@@ -64,12 +72,11 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="notice-write" v-if="this.$store.state.userInfo.userVerify == 128">
         <router-link to="/notice/NoticeWrite">
-          <span>공지사항작성</span>
+          <button type="button">공지사항작성</button>
         </router-link>
       </div>
-
     </div>
 
   </div>
@@ -92,7 +99,7 @@ export default {
         writer: '',
         content: '',
         title: '',
-        reg_date: this.convertTime()
+        reg_date: ''
       },
     }
   },
@@ -229,11 +236,12 @@ th {
   vertical-align: middle;
   text-align: center;
   padding: 0;
+  background-color: #f1f1f1;
 }
 
 .notice-table td {
   height: 52px;
-  border-bottom: 1px solid #000000;
+  border-bottom: 1px solid #ccc;
   font-size: 13px;
   vertical-align: middle;
   font-weight: normal;
@@ -265,9 +273,37 @@ th {
   float: right;
 }
 
+.notice-write {
+  display: flex;
+  justify-content: right;
+}
+
+.notice-write>a>button {
+  /* router-link는 a태그로 지정해주어야 함 */
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+}
+
+.notice-write>a>button:hover {
+  background-color: #0a3bffbe;
+  transition: background 0.3s ease-in-out;
+}
+
 .paging-btn {
   width: auto;
   min-width: 33px;
   padding: 0 2px;
+}
+
+.notice-write button {
+  float: right;
+  background-color: #000;
+  color: #f1f1f1;
+}
+
+.login-noitce{
+  font-size: 5px;
+  font-weight: 400;
 }
 </style>

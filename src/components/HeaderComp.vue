@@ -21,15 +21,15 @@
         </span>
       </div>
       <div class="menus">
-        <router-link to="#">랭킹</router-link>
-        <router-link to="#">업데이트</router-link>
-        <router-link to="#">코디</router-link>
-        <router-link to="#">세일</router-link>
-        <router-link to="#">스페셜</router-link>
-        <router-link to="#">매거진</router-link>
-        <router-link to="#">TV</router-link>
-        <router-link to="#">이벤트</router-link>
-        <router-link to="#">브랜드</router-link>
+        <router-link to="/login/not-yet">랭킹</router-link>
+        <router-link to="/login/not-yet">업데이트</router-link>
+        <router-link to="/login/not-yet">코디</router-link>
+        <router-link to="/login/not-yet">세일</router-link>
+        <router-link to="/login/not-yet">스페셜</router-link>
+        <router-link to="/login/not-yet">매거진</router-link>
+        <router-link to="/login/not-yet">TV</router-link>
+        <router-link to="/login/not-yet">이벤트</router-link>
+        <router-link to="/login/not-yet">브랜드</router-link>
       </div>
     </nav>
     <nav class="fixed-top header-submenu">
@@ -38,10 +38,10 @@
         {{this.$store.state.userInfo.userId}}
       </div>
       <router-link :to="this.$store.state.myPageLink">마이페이지</router-link>
-      <router-link to="#">최근 본 상품</router-link>
-      <router-link to="#" style="color:red;">좋아요</router-link>
-      <router-link to="/cart">장바구니</router-link>
-      <router-link to="#">주문배송조회</router-link>
+      <router-link to="/login/not-yet">최근 본 상품</router-link>
+      <router-link to="/login/not-yet" style="color:red;">좋아요</router-link>
+      <router-link :to="this.$store.state.myCartLink">장바구니</router-link>
+      <router-link to="/orderList" v-if="this.$store.state.idConfirmed===true">주문배송조회</router-link>
       <router-link to="/notice/NoticeList">고객센터</router-link>
       <div v-if="this.$store.state.idConfirmed===true" @click="logout">로그아웃</div>
 
@@ -203,6 +203,9 @@ export default {
     color: black;
     font-weight: bold;
     cursor: pointer;
+  }
+  .header-submenu div:last-child:hover {
+    text-decoration: underline;
   }
   .login_btn {
     width: 160px;

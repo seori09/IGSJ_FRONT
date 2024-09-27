@@ -52,12 +52,11 @@ export default {
   data () {
     return {
       curCno: window.location.href.slice(-3),
-      midLvCatArr: {},
+      midLvCatArr: [{big_ctg:'대분류명', category_level:'대분류', category_name:'중분류명', cno:'중분류'}],
       allProducts: {}
     }
   },
   created(){
-    this.$store.commit('setUrl', window.location.href)
     this.fn_CategoryDetails(this.curCno)
     this.fn_showProducts(this.curCno)
   },

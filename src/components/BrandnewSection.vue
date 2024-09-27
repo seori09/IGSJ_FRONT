@@ -5,7 +5,7 @@
     </div>
     <div class="section-content">
       <div class='mostViewProd'>
-        <div class="products">
+        <div class="products" @mouseenter="halter" @mouseleave="restarter">
           <div class="card" :key=i v-for='(prd, i) in brandnewArr'>
             <router-link :to="{name: 'product', params: {pno: prd.pno}}">
               <img :src="prd.image" class="card-img-top" alt="product">
@@ -35,9 +35,6 @@ export default {
     title: String
   },
   mounted(){
-    this.fn_flowDisp = setInterval(()=>{
-      this.flowDisplay()
-    }, 2000)
     this.fn_rankDisplay()
   },
   unmounted() {
@@ -48,10 +45,12 @@ export default {
       this.$axios.get(this.$serverUrl + '/product/brandnew')
       .then((res) => {
         this.brandnewArr = res.data
+        this.fn_flowDisp = setInterval(()=>{
+          try {this.flowDisplay()}
+          catch(e) {console.log("IGNORE THIS ERROR : "+e)}
+        }, 2000)
       }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('Products Error')
-        }
+        if (err.message.indexOf('Network Error') > -1) {alert('Products Error')}
       })
     },
     flowDisplay() {
@@ -66,13 +65,19 @@ export default {
         }
       })
       setTimeout(()=>{
-        document.querySelector(".products").appendChild(clone)
-        product[0].remove()
-        for(const i in product){
-          if(i>0) product[i].removeAttribute('style')
+        try {
+          document.querySelector(".products").appendChild(clone)
+          product[0].remove()
+          for(const i in product){
+            if(i>0) product[i].removeAttribute('style')
+          }
+        } catch(err) {
+          console.log(err)
         }
-      },1000)
-    }
+      }, 1000)
+    },
+    halter(){clearInterval(this.fn_flowDisp)},
+    restarter(){this.fn_flowDisp = setInterval(()=>{this.flowDisplay()}, 2000)}
   }
 }
 </script>

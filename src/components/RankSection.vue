@@ -37,8 +37,8 @@ export default {
     this.fn_rankDisplay()
   },
   methods:{
-    fn_rankDisplay() { // 이거 말고 상품 주문량 Top10 뽑아서 가져오는 쿼리문 만들기
-      this.$axios.get(this.$serverUrl + '/product/all')
+    fn_rankDisplay() {
+      this.$axios.get(this.$serverUrl + '/product/all') // 주문량 기준 Top10 쿼리문은 만듦
       .then((res) => {
         this.rankArr = res.data
       }).catch((err) => {

@@ -60,17 +60,23 @@
         </div>
       </div>
     </div>
-    <div class="btn-no">
+    <div class="btn-no" v-if="this.$store.state.userInfo.userVerify == 128">
       <router-link to="/notice/NoticeList">
         <button class="n-btn">목록으로</button>
       </router-link>
+
       <router-link :to="{
-        name: 'NoticeModify',
-        params: {
-          bno: this.boardInfo.bno
-        }
+        name: 'NoticeModify', params: { bno: this.boardInfo.bno }
       }">
         <button type="button" class="n-btn-modi">수정하기</button>
+      </router-link>
+
+      <button type="button" class="n-btn" @click="noticeDel()">삭제하기</button>
+
+    </div>
+    <div class="btn-no" v-else>
+      <router-link to="/notice/NoticeList">
+        <button type="button" class="n-btn">목록으로</button>
       </router-link>
     </div>
   </div>
@@ -94,6 +100,7 @@ export default {
     this.getPostNum(this.bno)
   },
   methods: {
+    // 게시글 불러오기 => 수정
     getPostNum(bno) {
       this.$axios.get(this.$serverUrl + '/notice/NoticeView?bno=' + bno)
         .then((res) => {
@@ -107,6 +114,7 @@ export default {
           }
         })
     },
+    // 시간변환
     convertTime(noticeTime) {
       var time = new Date(noticeTime).getTime();
       var date = new Date(time);
@@ -117,6 +125,33 @@ export default {
       let fullDate = noticeYear + "년 - " + noticeMonth + "월 - " + noticeDate + "일";
 
       return fullDate;
+    },
+    // 게시글 삭제
+    noticeDel() {
+
+      if (confirm("공지사항을 삭제하시겠습니까??\n삭제된정보는 복구되지 않습니다.")) {
+        this.$axios.post(this.$serverUrl + '/notice/NoticeDel/' + this.boardInfo.bno)
+          .then((res) => {
+            if (res.data == true) {
+              alert("공지사항 삭제가 완료되었습니다.")
+
+              location.href = "/notice/NoticeList";
+            } else {
+              alert("삭제에 실패하였습니다.")
+
+              return false;
+            }
+
+          }).catch((err) => {
+            if (err.message.indexOf('Network Error') > -1) {
+              alert('Error')
+            }
+          })
+      } else {
+        alert("삭제를 취소하셨습니다.");
+
+        return false;
+      }
     }
   }
 };

@@ -12,10 +12,7 @@ import BrandnewSection from "@/components/BrandnewSection.vue"
 import SpecialSection  from "@/components/SpecialSection.vue"
 
 export default {
-  components: {BrandnewSection, RankSection, SpecialSection},
-  created(){
-    this.$store.commit('setUrl', window.location.href)
-  }
+  components: {BrandnewSection, RankSection, SpecialSection}
 }
 </script>
 

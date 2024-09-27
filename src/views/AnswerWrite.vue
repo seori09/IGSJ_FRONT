@@ -1,91 +1,79 @@
 <template>
   <div class="inquire-box">
     <header class="inquire-title">
-      <h4 class="inquire-tit">나의 1:1문의내역</h4>
+      <h2 class="inquire-tit">나의 1:1문의내역</h2>
       <hr>
     </header>
     <div class="inquire-contents">
       <div class="section_form">
         <div class="area">
           <header class="n-section-title">
-            <h4 class="tit">{{ this.inquireInfo.inquireNum }}. 문의내역</h4>
+            <h4 class="tit">{{ this.inquireInfo.inquireNum }} 번 문의내역</h4>
           </header>
           <!-- 문의내용 -->
           <div class="inq-con">
-            <table class="n-table table-row">
-              <tbody>
-                <tr>
-                  <th scope="row">작성자</th>
-                  <td>
-                    <input type="text" class="n-input" v-model="this.inquireInfo.userId" readonly />
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">작성날짜</th>
-                  <td>
-                    <input id="reg_date" type="text" class="n-input" v-model="this.inquireInfo.inquireRegDate" readonly />
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">제목</th>
-                  <td>
-                    <input type="text" class="n-input" name="subject" v-model="this.inquireInfo.inquireTitle" readonly />
-                  </td>
-                </tr>
-                <tr class="n-same-row">
-                  <th scope="row">문의내용</th>
-                  <td>
-                    <textarea name="qa_msg" cols="100" rows="100" class="textarea-input"
-                      readonly>{{ this.inquireInfo.inquireContent }}</textarea>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <table class="n-table table-row">
+            <tbody>
+              <tr>
+                <th scope="row">작성자</th>
+                <td>
+                  <input type="text" class="n-input" v-model="this.inquireInfo.userId" readonly />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">작성날짜</th>
+                <td>
+                  <input id="reg_date" type="text" class="n-input" v-model="this.inquireInfo.inquireRegDate" readonly />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">제목</th>
+                <td>
+                  <input type="text" class="n-input" name="subject" v-model="this.inquireInfo.inquireTitle" readonly />
+                </td>
+              </tr>
+              <tr class="n-same-row">
+                <th scope="row">문의내용</th>
+                <td>
+                  <textarea name="qa_msg" cols="100" rows="100" class="inquire-textarea"
+                    readonly>{{ this.inquireInfo.inquireContent }}</textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           </div>
           <!-- 문의내용 -->
-
-          <!-- 답글내용 -->
-          <div class="ans-content" v-if="this.answerInfo.ansContent != undefined">
-            <h4 class="tit">{{ this.inquireInfo.inquireNum }}. 문의 답변</h4>
+          <!-- 답변하기 -->
+          <div class="ans-content">
+            <header class="n-section-title">
+              <h4 class="tit">{{ this.inquireInfo.inquireNum }}. 문의내역 답변작성</h4>
+            </header>
             <table class="n-table table-row">
               <tbody>
                 <tr class="n-same-row">
-                  <th scope="row">답변내용</th>
+                  <th scope="row">답변내역작성</th>
                   <td>
-                    <textarea name="qa_msg" cols="100" rows="100" class="textarea-input"
-                      readonly>{{ answerInfo.ansContent }}</textarea>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">작성날짜</th>
-                  <td>
-                    <span id="reg_date" type="text" class="n-input" readonly>
-                      {{ convertTime(answerInfo.ansRegDate) }}
-                    </span>
+                    <textarea name="qa_msg" cols="100" rows="100" class="answer-textarea" v-model="this.answerInfo.ansContent"></textarea>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="ans-x" v-else>
-            <h4>답변 내역이 없습니다.</h4>
-          </div>
+          <!-- 답변하기 -->
         </div>
       </div>
     </div>
-    <!-- 답글내용 -->
-    <div class="btn-gr" v-if="this.$store.state.userInfo.userVerify == 128">
-      <router-link :to="{ name: 'AnswerWrite', params: { inquireNum: this.inquireInfo.inquireNum } }">
-        <button type="button" class="n-btn btn-ans">답변하기</button>
-      </router-link>
-    </div>
-    <div class="btn-gr" v-else>
-      <button type="button" class="n-btn btn-del" @click="inquireDel()">삭제하기</button>
+    <div class="btn-gr">
+
+      <button type="button" class="n-btn btn-wr" @click="answerWrite()">답변완료</button>
 
       <router-link to="/inquire/InquireList">
         <button type="button" class="n-btn btn-mo">목록으로</button>
       </router-link>
     </div>
+  </div>
+  <div class="review-box">
+    <div class="review"></div>
   </div>
 </template>
 
@@ -93,7 +81,6 @@
 export default {
   data() {
     return {
-
       inquireInfo: {
         userId: "",
         inquireNum: "",
@@ -112,7 +99,6 @@ export default {
   created() {
     this.inquireNum = this.$route.params.inquireNum;
     this.getinquireNum(this.inquireNum);
-    this.answerList(this.inquireNum);
   },
   methods: {
     // 게시글 불러오기위해 List에서 넘겨준 데이터를 받아내야함
@@ -135,46 +121,31 @@ export default {
           }
         });
     },
-    // 답글내역
-    answerList(inquireNum) {
+    answerWrite() {
       this.$axios
-        .get(this.$serverUrl + "/answer/AnswerList?inquireNum=" + inquireNum)
+        .post(this.$serverUrl + "/answer/AnswerWrite", {
+          inquireNum : this.inquireInfo.inquireNum,
+          ansContent : this.answerInfo.ansContent
+        })
 
         .then((res) => {
-          this.answerInfo = res.data;
-          console.log(this.answerInfo.ansContent)
+          if(res.data == true){
+            alert("답변 작성이 완료되었습니다.");
+
+            location.href = "/inquire/InquireView/" + this.inquireInfo.inquireNum;
+
+          } else {
+            alert("이미 답변이 달려있는 경우에는 추가답변이 불가합니다.\n문의를 새로 작성해주세요.");
+
+            return false;
+          }
 
         })
         .catch((err) => {
           this.error = err.message;
+          console.log(this.error);
 
         });
-    },
-    // 문의 삭제
-    inquireDel() {
-      if (confirm("문의사항을 삭제하시겠습니까?\n삭제된정보는 복구되지 않습니다.")) {
-        this.$axios.post(this.$serverUrl + '/inquire/InquireDelete/' + this.inquireInfo.inquireNum)
-          .then((res) => {
-            if (res.data == true) {
-              alert("문의사항 삭제가 완료되었습니다.")
-
-              location.href = "/inquire/InquireList";
-            } else {
-              alert("삭제에 실패하였습니다.")
-
-              return false;
-            }
-
-          }).catch((err) => {
-            if (err.message.indexOf('Network Error') > -1) {
-              alert('Error')
-            }
-          })
-      } else {
-        alert("삭제를 취소하셨습니다.");
-
-        return false;
-      }
     },
     // 시간변환
     convertTime(noticeTime) {
@@ -208,7 +179,6 @@ td {
 
 ul {
   padding: 0;
-  list-style: none;
 }
 
 hr {
@@ -222,7 +192,6 @@ body {
 .inquire-tit {
   margin: 0;
   padding: 20px;
-  font-weight: 600;
 }
 
 .inquire-box {
@@ -238,7 +207,6 @@ body {
 
 .n-section-title {
   border-bottom: 2px solid #ccc;
-  padding: 10px 0;
   line-height: 1.5;
   font-size: 14px;
   position: relative;
@@ -250,7 +218,6 @@ body {
   font-size: 14px;
   border-collapse: collapse;
   table-layout: fixed;
-  border-bottom: 2px solid #ccc;
 }
 
 .n-table th {
@@ -295,7 +262,7 @@ body {
   outline: none;
 }
 
-.textarea-input {
+.inquire-textarea{
   width: 100%;
   height: 150px;
   padding: 5px 6px;
@@ -305,49 +272,47 @@ body {
   font-size: 14px;
   line-height: 20px;
   transition: border 0.2s ease-in-out;
+  resize: none;
   pointer-events: none;
-}
-
-.inq-con {}
-
-.ans-x {
-  height: 90px;
-  background-color: #f1f1f1;
-}
-
-.ans-x h4 {
-  margin: 0;
-  padding: 30px 0;
-  text-align: center;
 }
 
 .ans-content {
   background-color: #f2f2f2;
 }
 
-.ans-content h4 {
-  margin: 0;
-  padding: 10px 0;
+.ans-content .n-section-title {
+  border-top: 2px solid #ccc;
+  border-bottom: none;
 }
 
-.ans-content .textarea-input {
-  background-color: #f2f2f2;
+.ans-content .answer-textarea {
+  background-color: #fff;
+  width: 950px;
 }
 
-.ans-content .n-input {
-  background-color: #f2f2f2;
-}
 
 .ans-content .n-same-row {
   border-top: 2px solid #fff;
   border-bottom: 2px solid #fff;
 }
 
-.ans-content>.n-table.table-row th {
+.ans-content > .n-table.table-row th  {
   text-align: center;
   vertical-align: inherit;
 }
 
+.answer-textarea{
+  width: 100%;
+  height: 200px;
+  padding: 5px 6px;
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 20px;
+  transition: border 0.2s ease-in-out;
+  resize: none;
+}
 
 .btn-gr {
   display: flex;
@@ -381,29 +346,14 @@ body {
   transition: background 0.3s ease-in-out;
 }
 
-.n-btn.btn-del {
+.n-btn.btn-wr {
   border: none;
   background-color: #000000;
 }
 
-.n-btn.btn-del:hover {
+.n-btn.btn-wr:hover {
   border: none;
   background-color: #0a3bffbe;
   transition: background 0.3s ease-in-out;
-}
-
-.n-btn.btn-ans {
-  border: none;
-  background-color: #000000;
-}
-
-.n-btn.btn-ans:hover {
-  border: none;
-  background-color: #0a3bffbe;
-  transition: background 0.3s ease-in-out;
-}
-
-textarea {
-  resize: none;
 }
 </style>
